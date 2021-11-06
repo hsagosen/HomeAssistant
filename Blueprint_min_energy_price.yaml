@@ -1,0 +1,39 @@
+blueprint:
+  name: Minimum electricity price
+  description: 'This automation blueprint sends a notification on minimum energy price.'
+  domain: automation
+  input:
+    energy_sensor:
+      name: Tibber price sensor
+      selector:
+        entity:
+          integration: tibber
+          domain: sensor
+      default: ''
+    notify_device:
+      name: Device to notify
+      description: Device needs to run the official Home Assistant app to receive
+        notifications
+      selector:
+        device:
+          integration: mobile_app
+
+
+mode: single
+max_exceeded: silent
+variables:
+  energy_sensor: !input 'energy_sensor'
+  energy_sensor_state: '{{ float(states[energy_sensor].state)}}'
+  energy_sensor_max: '{{ float(states[energy_sensor].attributes[''min_price''])}}'
+trigger:
+  platform: state
+  entity_id: !input 'energy_sensor'
+condition:
+  condition: template
+  value_template: '{{energy_sensor_state = energy_sensor_min}}'
+action:
+  - device_id: !input notify_device
+    domain: mobile_app
+    type: notify
+    title: Electricity price
+    message: The electricity price is now {{energy_sensor_state}}

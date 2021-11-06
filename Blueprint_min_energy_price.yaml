@@ -30,7 +30,7 @@ trigger:
   entity_id: !input 'energy_sensor'
 condition:
   condition: template
-  value_template: '{{energy_sensor_state = energy_sensor_min}}'
+  value_template: '{{energy_sensor_state < 0.9 * energy_sensor_min}}'
 action:
   - device_id: !input notify_device
     domain: mobile_app

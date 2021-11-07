@@ -1,6 +1,6 @@
 blueprint:
   name: Minimum electricity price
-  description: 'This automation blueprint sends a notification on minimum energy price.'
+  description: 'This automation blueprint sends a notification on 10% over minimum energy price.'
   domain: automation
   input:
     energy_sensor:
@@ -30,7 +30,7 @@ trigger:
   entity_id: !input 'energy_sensor'
 condition:
   condition: template
-  value_template: '{{energy_sensor_state < 0.9 * energy_sensor_min}}'
+  value_template: '{{energy_sensor_state < 1.1 * energy_sensor_min}}'
 action:
   - device_id: !input notify_device
     domain: mobile_app

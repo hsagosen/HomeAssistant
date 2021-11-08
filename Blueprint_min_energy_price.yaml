@@ -24,7 +24,7 @@ max_exceeded: silent
 variables:
   energy_sensor: !input 'energy_sensor'
   energy_sensor_state: '{{ float(states[energy_sensor].state)}}'
-  energy_sensor_max: '{{ float(states[energy_sensor].attributes[''min_price''])}}'
+  energy_sensor_min: '{{ float(states[energy_sensor].attributes[''min_price''])}}'
 trigger:
   platform: state
   entity_id: !input 'energy_sensor'

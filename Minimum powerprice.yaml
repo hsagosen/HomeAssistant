@@ -1,0 +1,19 @@
+alias: Toggle switch when power cost is 10% over daily minumum
+description: ''
+trigger:
+  - platform: state
+    entity_id: sensor.electricity_price_lille_kongshaugen_11
+condition:
+  - condition: template
+    value_template: '{{energy_sensor_state < 1.1 * energy_sensor_min}}'
+action:
+  - type: toggle
+    device_id: a0a04ecfadd39d4bfcc7abb9893658ff
+    entity_id: switch.vedbod_garasje
+    domain: switch
+mode: single
+max_exceeded: silent
+variables:
+  energy_sensor: sensor.electricity_price_lille_kongshaugen_11
+  energy_sensor_state: '{{ float(states[energy_sensor].state)}}'
+  energy_sensor_min: '{{ float(states[energy_sensor].attributes[''min_price''])}}'

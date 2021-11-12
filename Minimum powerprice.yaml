@@ -1,4 +1,4 @@
-alias: Toggle switch when power cost is 10% over daily minumum
+alias: Toggle switch when power cost is less than 10% over daily minumum
 description: ''
 trigger:
   - platform: state
